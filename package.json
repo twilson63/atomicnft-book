@@ -1,0 +1,19 @@
+{
+  "name": "atomicnft-book",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/twilson63/atomicnft-book.git",
+  "author": "Tom Wilson <tom@hyper.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "@verto/component": "^0.1.0",
+    "arweave": "^1.11.4",
+    "esbuild": "^0.14.53",
+    "replace-in-file": "^6.3.5",
+    "warp-contracts": "^1.1.14",
+    "zod": "^3.17.10"
+  },
+  "scripts": {
+    "build": "node build.js"
+  }
+}
