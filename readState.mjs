@@ -11,15 +11,15 @@ const arweave = Arweave.init({
   protocol: 'http'
 })
 
-LoggerFactory.INST.logLevel('error')
+LoggerFactory.INST.logLevel('debug')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
 const result = await warp
-  .pst('FFjC-GrNkvBS5WlN4_kH9ofORcYXF04ivE7YGpN5jok')
+  .pst('wA0jbG4ZJTO3Tlse_FRHPX_LEGOs_k-J2v9rgj4ufYA')
   .setEvaluationOptions({
     allowUnsafeClient: true
   })
   .readState()
 
-console.log(result.state)
+console.log(JSON.stringify(result.state, null, 2))

@@ -11,7 +11,7 @@ const arweave = Arweave.init({
   protocol: 'http'
 })
 
-LoggerFactory.INST.logLevel('error')
+LoggerFactory.INST.logLevel('debug')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 

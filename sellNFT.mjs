@@ -14,26 +14,29 @@ LoggerFactory.INST.logLevel('error')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
-const bAR = '5kv0gVf9LrWCDmqvidJlPW4T0Nsll6uYdC7YvvdUzaI'
-const contractID = 'MLpPmOFlreTUI_-hZZ2BvJhukD3kL7vLLwLU8_adF7s'
+const bAR = 'MKcbbRrDED-aI3ojnVXd9DTRY_4DZGOt5dOPHS3HpWk'
+const contractID = 'wA0jbG4ZJTO3Tlse_FRHPX_LEGOs_k-J2v9rgj4ufYA'
 
 const contract = await warp.pst(contractID).connect(wallet)
 // sellNFT
-// const tokenTx = await contract.writeInteraction({
-//   function: 'transfer',
-//   target: contractID,
-//   qty: 1
-// })
+const tokenTx = await contract.writeInteraction({
+  function: 'transfer',
+  target: contractID,
+  qty: 1
+})
+//const tokenTx = 'G0I0-mFpFfU0qn1g32eYQz1LMLx7IxCKANnVxyYvDpE'
+console.log('tokenTx', tokenTx)
 
-// await arweave.api.get('mine')
+await arweave.api.get('mine')
 
-const orderResult = contract.writeInteraction({
+const orderResult = await contract.writeInteraction({
   function: 'createOrder',
-  transaction: 'k_4dMwlW7UCE3ZnLGo5ZwPpsdYv-oUc7X7Pb1493tJQ',
+  transaction: tokenTx,
   pair: [contractID, bAR],
   price: arweave.ar.arToWinston('0.4')
 })
 
 await arweave.api.get('mine')
-console.log(orderResult)
+
+console.log('orderResult', orderResult)
 // Pair ID = ya1fuTTUH087HTjdRtqID6-4l3KzBgU8DzidWuDUgZM

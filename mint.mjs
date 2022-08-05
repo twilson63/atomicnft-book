@@ -11,6 +11,8 @@ const arweave = Arweave.init({
   protocol: 'http'
 })
 
+const addr = await arweave.wallets.jwkToAddress(wallet)
+
 LoggerFactory.INST.logLevel('error')
 
 const warp = WarpNodeFactory.forTesting(arweave)
@@ -18,7 +20,7 @@ const warp = WarpNodeFactory.forTesting(arweave)
 const initState = JSON.stringify({
   ticker: 'ATOMIC-NFT',
   balances: {
-    'dxSa6PQlQCqOHBY2BXh10GFDJVzbtq1oqkO80nF6IzY': 1
+    [addr]: 1
   },
   invocations: [],
   emergencyHaltWallet: '',
