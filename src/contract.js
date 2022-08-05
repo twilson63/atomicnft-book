@@ -1,23 +1,19 @@
 import { AddPair, CreateOrder, CancelOrder, Halt } from '@verto/component'
-import { z } from 'zod'
 
-const functions = { transfer, balance, readOutbox, addPair: AddPair, createOrder: CreateOrder, cancelOrder: CancelOrder, halt: Halt }
+const handleComponent = (f) => async (s, a) => ({ state: await f(s, a) })
 
-
-const schema = z.object({
-  ticker: z.string(),
-  balances: z.record(z.number()),
-  emergencyHaltWallet: z.string(),
-  halted: z.boolean(),
-  pairs: z.array(z.any()),
-  usedTransfers: z.array(z.any()),
-  foreignCalls: z.array(z.any())
-})
-
+const functions = {
+  transfer, balance, readOutbox,
+  addPair: handleComponent(AddPair),
+  createOrder: handleComponent(CreateOrder),
+  cancelOrder: handleComponent(CancelOrder),
+  halt: handleComponent(Halt)
+}
 
 export async function handle(state, action) {
   try {
-    const data = schema.parse(state)
+    const data = state
+
     //const data = state
     if (Object.keys(functions).includes(action.input.function)) {
       return functions[action.input.function](data, action)

@@ -10,12 +10,12 @@ const arweave = Arweave.init({
   protocol: 'http'
 })
 
-LoggerFactory.INST.logLevel('error')
+LoggerFactory.INST.logLevel('debug')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
-const bAR = '5kv0gVf9LrWCDmqvidJlPW4T0Nsll6uYdC7YvvdUzaI'
-const contractID = 'MLpPmOFlreTUI_-hZZ2BvJhukD3kL7vLLwLU8_adF7s'
+const bAR = 'D5fL2OjA_Y-ihuFodMGRw2ptQmZKqJZRoXy36zC6UGE'
+const contractID = 'FFjC-GrNkvBS5WlN4_kH9ofORcYXF04ivE7YGpN5jok'
 
 // addPair
 const result = await warp.pst(contractID).connect(wallet).writeInteraction({

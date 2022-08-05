@@ -15,22 +15,8 @@ LoggerFactory.INST.logLevel('error')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
-const initState = JSON.stringify({
-  ticker: 'BAR-COIN',
-  reserve: 'BAR-Reserve-BARBARBARBARBARweaveBARBARBARBARBAR',
-  balances: {},
-  invocations: [],
-  foreignCalls: [],
-  settings: [
-    ['isTradeable', true]
-  ]
-})
-
-const result = await warp.createContract.deploy({
-  src,
-  wallet,
-  initState
-})
+const result = await warp
+  .pst('D5fL2OjA_Y-ihuFodMGRw2ptQmZKqJZRoXy36zC6UGE')
+  .readState()
 
 console.log(result)
-
