@@ -10,13 +10,14 @@ const arweave = Arweave.init({
   port: 1984,
   protocol: 'http'
 })
-
-LoggerFactory.INST.logLevel('debug')
+const addr = await arweave.wallets.jwkToAddress(wallet)
+console.log(addr)
+LoggerFactory.INST.logLevel('error')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
 const result = await warp
-  .pst('D5fL2OjA_Y-ihuFodMGRw2ptQmZKqJZRoXy36zC6UGE')
+  .pst('_1ZXFB2Llu0ljjiBz5jmZz8pZrmJP3AvCZKe5D_YZYo')
   .readState()
 
-console.log(result)
+//console.log(result)

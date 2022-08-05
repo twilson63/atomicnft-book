@@ -11,6 +11,15 @@ const functions = {
 }
 
 export async function handle(state, action) {
+  if (action.input.function === 'addPair') {
+    const s = await AddPair(state, action)
+    return { state: s }
+  }
+  if (action.input.function === 'createOrder') {
+    const resultObj = await CreateOrder(state, action)
+    return { state: resultObj.state }
+  }
+
   try {
     const data = state
 

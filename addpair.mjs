@@ -14,8 +14,8 @@ LoggerFactory.INST.logLevel('debug')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
-const bAR = 'MKcbbRrDED-aI3ojnVXd9DTRY_4DZGOt5dOPHS3HpWk'
-const contractID = 'wA0jbG4ZJTO3Tlse_FRHPX_LEGOs_k-J2v9rgj4ufYA'
+const bAR = 'UVAOB8Ta18WV666-FXf301dpGqJrLB3ga7Z5sabcOwE'
+const contractID = 'sc-z6t1CgYxOpsSbAmlvCqUtCDxnsi8zvSNQ-BvOqz8'
 
 // addPair
 const result = await warp.pst(contractID).connect(wallet).writeInteraction({
@@ -26,3 +26,4 @@ const result = await warp.pst(contractID).connect(wallet).writeInteraction({
 console.log(result)
 
 // Pair ID = ya1fuTTUH087HTjdRtqID6-4l3KzBgU8DzidWuDUgZM
+await arweave.api.get('mine')

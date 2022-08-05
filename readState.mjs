@@ -12,14 +12,23 @@ const arweave = Arweave.init({
 })
 
 LoggerFactory.INST.logLevel('debug')
+const addr = await arweave.wallets.jwkToAddress(wallet)
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
+const bAR = 'UVAOB8Ta18WV666-FXf301dpGqJrLB3ga7Z5sabcOwE'
+const contractID = 'sc-z6t1CgYxOpsSbAmlvCqUtCDxnsi8zvSNQ-BvOqz8'
+
 const result = await warp
-  .pst('wA0jbG4ZJTO3Tlse_FRHPX_LEGOs_k-J2v9rgj4ufYA')
+  .pst(contractID)
   .setEvaluationOptions({
-    allowUnsafeClient: true
+    allowUnsafeClient: true,
+
   })
   .readState()
 
-console.log(JSON.stringify(result.state, null, 2))
+// tjm seller
+// 9J- buyer
+
+console.log(JSON.stringify(result, null, 2))
+

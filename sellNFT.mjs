@@ -14,8 +14,8 @@ LoggerFactory.INST.logLevel('error')
 
 const warp = WarpNodeFactory.forTesting(arweave)
 
-const bAR = 'MKcbbRrDED-aI3ojnVXd9DTRY_4DZGOt5dOPHS3HpWk'
-const contractID = 'wA0jbG4ZJTO3Tlse_FRHPX_LEGOs_k-J2v9rgj4ufYA'
+const bAR = 'UVAOB8Ta18WV666-FXf301dpGqJrLB3ga7Z5sabcOwE'
+const contractID = 'sc-z6t1CgYxOpsSbAmlvCqUtCDxnsi8zvSNQ-BvOqz8'
 
 const contract = await warp.pst(contractID).connect(wallet)
 // sellNFT
@@ -33,7 +33,7 @@ const orderResult = await contract.writeInteraction({
   function: 'createOrder',
   transaction: tokenTx,
   pair: [contractID, bAR],
-  price: arweave.ar.arToWinston('0.4')
+  price: Number(arweave.ar.arToWinston('0.4'))
 })
 
 await arweave.api.get('mine')
