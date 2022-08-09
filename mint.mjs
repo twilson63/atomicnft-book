@@ -6,19 +6,19 @@ const src = fs.readFileSync('./dist/contract.js', 'utf-8')
 const wallet = JSON.parse(fs.readFileSync('./wallet.json', 'utf-8'))
 
 const arweave = Arweave.init({
-  host: 'localhost',
-  port: 1984,
-  protocol: 'http'
+  host: 'arweave.net',
+  port: 443,
+  protocol: 'https'
 })
 
 const addr = await arweave.wallets.jwkToAddress(wallet)
 
 LoggerFactory.INST.logLevel('error')
 
-const warp = WarpNodeFactory.forTesting(arweave)
+const warp = WarpNodeFactory.memCached(arweave)
 
 const initState = JSON.stringify({
-  ticker: 'ATOMIC-NFT',
+  ticker: 'DATAFI-NFT',
   balances: {
     [addr]: 1
   },
@@ -34,7 +34,7 @@ const result = await warp.createContract.deploy({
   src,
   wallet,
   initState
-})
+}, true) // use bundlr
 
 console.log(result)
 
