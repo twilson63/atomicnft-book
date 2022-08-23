@@ -9,13 +9,14 @@
     "arweave": "^1.11.4",
     "esbuild": "^0.14.53",
     "replace-in-file": "^6.3.5",
-    "warp-contracts": "^1.1.14",
+    "warp-contracts": "^1.2.0-rc.1",
     "zod": "^3.17.10"
   },
   "scripts": {
     "build": "node build.js"
   },
   "dependencies": {
-    "@verto/flex": "^0.1.1"
+    "@verto/flex": "^0.1.7",
+    "crocks": "^0.12.4"
   }
 }

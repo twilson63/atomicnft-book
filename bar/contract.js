@@ -1,5 +1,10 @@
-import { AddPair, CreateOrder, CancelOrder, Halt } from '@verto/flex'
-
+// In order to add bAR minting while you upload data to the permaweb, simply add the following tags:
+// Protocol-Name: BAR
+// Action: Burn
+// App-Name: SmartWeaveAction
+// App-Version: 0.3.0
+// Input: {"function":"mint"}
+// Contract: THIS CONTRACT ID
 export async function handle(state, action) {
   const balances = state.balances;
   const claimable = state.claimable;
@@ -7,14 +12,20 @@ export async function handle(state, action) {
   const input = action.input;
   const caller = action.caller;
 
+  if (input.function === "mint") {
+    const amountToMint = parseInt(SmartWeave.transaction.reward) / 1e6;
+    if (!balances[caller]) {
+      balances[caller] = amountToMint;
+    } else {
+      balances[caller] += amountToMint;
+    }
+    return { state };
+  }
   if (input.function === "transfer") {
     const target = input.target;
     const quantity = input.qty;
-
-    if (!Number.isInteger(quantity) || quantity === undefined) {
-      throw new ContractError(
-        "Invalid value for quantity. Must be an integer."
-      );
+    if (!Number.isInteger(quantity) || quantity === void 0) {
+      throw new ContractError("Invalid value for quantity. Must be an integer.");
     }
     if (!target) {
       throw new ContractError("No target specified.");
@@ -23,59 +34,28 @@ export async function handle(state, action) {
       throw new ContractError("Invalid token transfer.");
     }
     if (balances[caller] < quantity) {
-      throw new ContractError(
-        "Caller balance not high enough to send " + quantity + " token(s)."
-      );
+      throw new ContractError("Caller balance not high enough to send " + quantity + " token(s).");
     }
-
     balances[caller] -= quantity;
     if (target in balances) {
       balances[target] += quantity;
     } else {
       balances[target] = quantity;
     }
-
     return { state };
   }
-
   if (input.function === "readOutbox") {
-    // Ensure that a contract ID is passed
     ContractAssert(!!input.contract, "Missing contract to invoke");
-
-    // Read the state of the foreign contract
-    const foreignState = await SmartWeave.contracts.readContractState(
-      input.contract
-    );
-
-    // Check if the foreign contract supports the foreign call protocol and compatible with the call
-    ContractAssert(
-      !!foreignState.foreignCalls,
-      "Contract is missing support for foreign calls"
-    );
-
-    // Get foreign calls for this contract that have not been executed
-    const calls = foreignState.foreignCalls.filter(
-      (element) =>
-        element.contract === SmartWeave.contract.id &&
-        !state.invocations.includes(element.txID)
-    );
-
-    // Run all invocations
+    const foreignState = await SmartWeave.contracts.readContractState(input.contract);
+    ContractAssert(!!foreignState.foreignCalls, "Contract is missing support for foreign calls");
+    const calls = foreignState.foreignCalls.filter((element) => element.contract === SmartWeave.contract.id && !state.invocations.includes(element.txID));
     let res = state;
-
     for (const entry of calls) {
-      // Run invocation
-      res =
-        // @ts-expect-error
-        (await handle(res, { caller: input.contract, input: entry.input }))
-          .state;
-      // Push invocation to executed invocations
+      res = (await handle(res, { caller: input.contract, input: entry.input })).state;
       res.invocations.push(entry.txID);
     }
-
     return { state: res };
   }
-
   if (input.function === "balance") {
     let target;
     if (!input.target) {
@@ -84,20 +64,18 @@ export async function handle(state, action) {
       target = input.target;
     }
     const ticker = state.ticker;
-
     if (typeof target !== "string") {
       throw new ContractError("Must specify target to get balance for.");
     }
     if (typeof balances[target] !== "number") {
       throw new ContractError("Cannot get balance; target does not exist.");
     }
-
     return {
       result: {
         target,
         ticker,
-        balance: balances[target],
-      },
+        balance: balances[target]
+      }
     };
   }
 
@@ -178,24 +156,4 @@ export async function handle(state, action) {
 
     return { state };
   }
-
-  if (input.function === 'addPair') {
-    const resultObj = await AddPair(state, action)
-    return { state: resultObj.state }
-  }
-  if (input.function === 'createOrder') {
-    const resultObj = await CreateOrder(state, action)
-    return { state: resultObj.state }
-  }
-
-  if (input.function === 'cancelOrder') {
-    const resultObj = await CancelOrder(state, action)
-    return { state: resultObj.state }
-  }
-  if (input.function === 'halt') {
-    const resultObj = await Halt(state, action)
-    return { state: resultObj.state }
-  }
-
 }
-

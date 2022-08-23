@@ -1,0 +1,20 @@
+{
+  "name": "TEST-BAR",
+  "ticker": "TEST-BAR",
+  "balances": {
+    "9A7WiTOdLvHig9gLjEdSHRhayENNLuu21ZNMir785CY": 1000,
+    "rtUeQT0C3Rb7l78s_t74yxM7Z4LADPCfpao1TXsbtHU": 1000
+  },
+  "settings": [
+    [
+      "isTradeable",
+      true
+    ]
+  ],
+  "halted": false,
+  "invocations": [],
+  "foreignCalls": [],
+  "divisibility": 6,
+  "claims": [],
+  "claimable": []
+}
